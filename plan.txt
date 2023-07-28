@@ -1,0 +1,37 @@
+Program does these things:
+- display inventory dataframe as a table
+- prompt user to choose an item to buy
+- generates a PDF receipt of the item which is saved
+- (optional) update the dataframe to reduce inventory of that item by
+the quantity purchased
+
+####################################
+Receipt contains:
+- Receipt number (based on item ID)
+        f"Item No. {item_id}"
+- Name of the item
+- Amount paid
+
+################################
+Front End:
+- Display the inventory table
+- Prompt user to enter the ID of the item they'd like to purchase
+- User enters the item id, and then the CLI ends the process there,
+  but a PDF document is generated
+
+##################################
+CLASSES:
+
+class Purchase
+- There will be two (2) classes: Purchase and Receipt
+- The Purchase class takes the item id, sets it to a self-variable,
+  and also uses it to reference the dataframe to set variables
+  for the item name and price / amount tendered
+- *optional*  Purchase class can also update the "in stock" amount
+  using a method
+
+class Receipt
+- The Purchase Object is then passed to the Receipt class,
+  which uses all of Purchase's __init__ variables within a method
+  to create the PDF object and then save it to a .pdf file in the
+  project directory
