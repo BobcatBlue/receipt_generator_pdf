@@ -2,22 +2,20 @@ import pandas as pd
 from fpdf import FPDF
 
 
-df = pd.read_csv("articles.csv", dtype={"id": str, "price": str})
-
-
 class Purchase:
-    def __init__(self, item_no):
+    def __init__(self, item_no, df):
         self.item_no = item_no
         self.article_name = df.loc[df["id"] == self.item_no, "name"].squeeze().title()
         self.price = df.loc[df["id"] == self.item_no, "price"].squeeze()
         self.quantity = int(df.loc[df["id"] == self.item_no, "in stock"].squeeze())
+        self.inventory = df
 
     def available(self):
         return self.quantity
 
     def update_inventory(self):
-        df.loc[df["id"] == self.item_no, "in stock"] = self.quantity - 1
-        df.to_csv("articles.csv", index=False)
+        self.inventory.loc[inventory["id"] == self.item_no, "in stock"] = self.quantity - 1
+        self.inventory.to_csv("articles.csv", index=False)
 
 
 class Receipt:
@@ -39,11 +37,13 @@ class Receipt:
         pdf.output("Receipt.pdf")
 
 
-print(df)
+inventory = pd.read_csv("articles.csv", dtype={"id": str, "price": str})
+
+print(inventory)
 
 while True:
     item_id = input("Enter the ID of the item you'd like to purchase: ")
-    purchase = Purchase(item_id)
+    purchase = Purchase(item_no=item_id, df=inventory)
 
     if purchase.available():
         purchase.update_inventory()
